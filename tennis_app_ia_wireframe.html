@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tennis Club App — IA &amp; 화면 기획</title>
+<style>
+:root{
+  --bg:#fff;--bg2:#f5f4f0;--bg3:#eeede9;
+  --t1:#1a1a19;--t2:#5f5e5a;--t3:#888780;
+  --b1:rgba(0,0,0,.4);--b2:rgba(0,0,0,.25);--b3:rgba(0,0,0,.12);
+  --blue:#185FA5;--blue-l:#E6F1FB;--blue-d:#0C447C;
+  --teal:#0F6E56;--teal-l:#E1F5EE;--teal-d:#085041;
+  --coral:#993C1D;--coral-l:#FAECE7;
+  --purple:#3C3489;
+  --green-l:#EAF3DE;--green-d:#27500A;
+  --amber-l:#FAEEDA;--amber-d:#633806;
+  --red-l:#FCEBEB;--red-d:#A32D2D;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;
+    --t1:#e8e7e3;--t2:#9c9a92;--t3:#6e6d67;
+    --b1:rgba(255,255,255,.4);--b2:rgba(255,255,255,.25);--b3:rgba(255,255,255,.1);
+    --blue:#378ADD;--blue-l:#0C447C;--blue-d:#85B7EB;
+    --teal:#1D9E75;--teal-l:#085041;--teal-d:#9FE1CB;
+    --coral:#D85A30;--coral-l:#712B13;
+    --purple:#7F77DD;
+    --green-l:#173404;--green-d:#C0DD97;
+    --amber-l:#412402;--amber-d:#FAC775;
+    --red-l:#501313;--red-d:#F09595;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.5}
+
+/* Tab nav */
+.topnav{display:flex;gap:4px;padding:16px 16px 0;border-bottom:1px solid var(--b3)}
+.tnav-btn{padding:8px 18px;border-radius:8px 8px 0 0;border:none;border-bottom:2px solid transparent;background:transparent;color:var(--t2);font-size:13px;font-weight:500;cursor:pointer;margin-bottom:-1px}
+.tnav-btn.on{color:var(--blue);border-bottom-color:var(--blue);background:var(--bg2)}
+.tab-panel{display:none;padding:20px 16px}
+.tab-panel.on{display:block}
+
+/* ── IA ── */
+.ia-auth{display:flex;justify-content:center;gap:10px;margin-bottom:6px}
+.auth-pill{padding:6px 16px;border-radius:16px;border:1px solid var(--b2);font-size:12px;color:var(--t2);display:flex;align-items:center;gap:6px}
+.ia-lbl{text-align:center;font-size:11px;color:var(--t3);margin-bottom:5px}
+.ia-arrow{text-align:center;color:var(--b2);margin:3px 0 8px;font-size:18px}
+.ia-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:780px;margin:0 auto}
+.ia-col{display:flex;flex-direction:column}
+.ia-hdr{padding:9px 6px;text-align:center;font-size:12px;font-weight:600;color:#fff;border-radius:6px 6px 0 0}
+.ia-stem{width:1px;height:10px;margin:0 auto;background:var(--b2)}
+.ia-grp{margin-top:4px}
+.ia-l2{padding:7px 8px;font-size:11px;font-weight:600;color:var(--t1);background:var(--bg2);border:1px solid var(--b2);border-radius:4px}
+.ia-l2.sub{border-radius:4px 4px 0 0;border-bottom:none}
+.ia-subs{border:1px solid var(--b2);border-top:none;border-radius:0 0 4px 4px;overflow:hidden}
+.ia-l3{padding:5px 8px 5px 15px;font-size:11px;color:var(--t2);background:var(--bg);border-top:1px solid var(--b3)}
+.ia-l3:first-child{border-top:none}
+.ia-l3::before{content:"· ";color:var(--t3)}
+.ia-badge{display:inline-block;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px;vertical-align:1px}
+.ia-legend{display:flex;gap:14px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.ia-leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t3)}
+.ia-leg-box{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+
+/* ── Wireframes ── */
+.wf-wrap{display:flex;gap:16px;align-items:flex-start}
+.wf-nav{width:156px;flex-shrink:0}
+.wf-nav-title{font-size:11px;color:var(--t3);margin-bottom:8px}
+.wf-nbtn{display:flex;align-items:center;gap:7px;width:100%;padding:7px 10px;border-radius:8px;border:1px solid transparent;background:transparent;cursor:pointer;font-size:12px;color:var(--t2);margin-bottom:2px;text-align:left}
+.wf-nbtn:hover{background:var(--bg2)}
+.wf-nbtn.on{background:var(--bg2);border-color:var(--b2);color:var(--t1);font-weight:600}
+.wf-num{min-width:17px;height:17px;border-radius:4px;background:var(--bg3);font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--t3)}
+.wf-nbtn.on .wf-num{background:var(--blue);color:#fff}
+.wf-frame-area{flex:1;display:flex;justify-content:center}
+.wf-phone{width:272px;border:1.5px solid var(--b1);border-radius:28px;overflow:hidden;background:var(--bg)}
+.wf-statusbar{display:flex;justify-content:space-between;padding:8px 16px 5px;font-size:10px;color:var(--t3)}
+.wf-body{height:490px;overflow:hidden}
+.wf-screen{min-height:490px;display:flex;flex-direction:column}
+.wf-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--b3);font-size:13px;font-weight:600;flex-shrink:0}
+.wf-back{font-size:20px;color:var(--t2);line-height:1;cursor:pointer}
+.wf-main{flex:1;overflow:hidden}
+.wf-bnav{display:flex;border-top:1px solid var(--b3);flex-shrink:0}
+.wf-ntab{flex:1;padding:8px 2px 10px;text-align:center;font-size:9px;color:var(--t3)}
+.wf-ntab.on{color:var(--blue);font-weight:600}
+.wf-ntab-line{width:14px;height:2px;background:var(--blue);border-radius:1px;margin:0 auto 3px;opacity:0}
+.wf-ntab.on .wf-ntab-line{opacity:1}
+.wf-tabs{display:flex;border-bottom:1px solid var(--b3)}
+.wf-tabt{padding:8px 7px;font-size:11px;color:var(--t2);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.wf-tabt.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+.wf-card{margin:8px 12px;padding:10px 12px;border:1px solid var(--b3);border-radius:8px}
+.wf-sec{padding:8px 14px 4px;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.3px}
+.wf-li{padding:9px 14px;border-bottom:1px solid var(--b3);font-size:12px}
+.wf-tag{display:inline-block;font-size:9px;padding:2px 6px;border-radius:3px}
+.wf-avatar{width:26px;height:26px;border-radius:50%;background:var(--bg2);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--t2);flex-shrink:0}
+.wf-inp{width:100%;padding:7px 10px;border:1px solid var(--b2);border-radius:6px;font-size:11px;background:var(--bg2);color:var(--t1)}
+.wf-btn-p{padding:7px 14px;border-radius:6px;background:var(--blue);color:#fff;font-size:11px;font-weight:600;border:none;cursor:pointer}
+.wf-btn-s{padding:7px 14px;border-radius:6px;background:var(--bg2);color:var(--t2);font-size:11px;border:1px solid var(--b2);cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <button class="tnav-btn on" onclick="showTab('ia',this)">IA 구조</button>
+  <button class="tnav-btn" onclick="showTab('wire',this)">화면 기획</button>
+</div>
+
+<!-- ── IA 패널 ── -->
+<div id="tab-ia" class="tab-panel on">
+  <div class="ia-lbl" style="margin-bottom:6px">공통 진입 화면</div>
+  <div class="ia-auth">
+    <div class="auth-pill">로그인</div>
+    <div class="auth-pill">회원가입 <span class="ia-badge" style="background:var(--amber-l);color:var(--amber-d)">클럽 셀렉박스</span></div>
+  </div>
+  <div class="ia-arrow">|</div>
+  <div class="ia-lbl">바텀 네비게이션 (4탭)</div>
+  <div class="ia-grid">
+
+    <div class="ia-col">
+      <div class="ia-hdr" style="background:var(--blue)">홈</div>
+      <div class="ia-stem"></div>
+      <div class="ia-grp"><div class="ia-l2">홈 대시보드</div></div>
+    </div>
+
+    <div class="ia-col">
+      <div class="ia-hdr" style="background:var(--coral)">ATP / WTA</div>
+      <div class="ia-stem"></div>
+      <div class="ia-grp"><div class="ia-l2">대회 목록</div></div>
+      <div class="ia-grp"><div class="ia-l2">대회 상세 · 결과</div></div>
+      <div class="ia-grp"><div class="ia-l2">대진표 브래킷</div></div>
+    </div>
+
+    <div class="ia-col">
+      <div class="ia-hdr" style="background:var(--teal)">클럽</div>
+      <div class="ia-stem"></div>
+      <div class="ia-grp"><div class="ia-l2">공지사항</div></div>
+      <div class="ia-grp">
+        <div class="ia-l2 sub">대회 관리</div>
+        <div class="ia-subs">
+          <div class="ia-l3">예정 대회</div>
+          <div class="ia-l3">아카이브</div>
+          <div class="ia-l3">대회 상세</div>
+        </div>
+      </div>
+      <div class="ia-grp">
+        <div class="ia-l2 sub">정기모임</div>
+        <div class="ia-subs">
+          <div class="ia-l3">출석 투표</div>
+          <div class="ia-l3">대진표</div>
+          <div class="ia-l3">스코어 입력</div>
+        </div>
+      </div>
+      <div class="ia-grp">
+        <div class="ia-l2 sub">자유게시판 <span class="ia-badge" style="background:var(--teal-l);color:var(--teal-d)">NEW</span></div>
+        <div class="ia-subs">
+          <div class="ia-l3">게시글 목록</div>
+          <div class="ia-l3">게시글 상세</div>
+          <div class="ia-l3">게시글 작성</div>
+        </div>
+      </div>
+      <div class="ia-grp"><div class="ia-l2">클럽원 목록</div></div>
+      <div class="ia-grp"><div class="ia-l2">클럽 정보</div></div>
+    </div>
+
+    <div class="ia-col">
+      <div class="ia-hdr" style="background:var(--purple)">마이페이지</div>
+      <div class="ia-stem"></div>
+      <div class="ia-grp"><div class="ia-l2">프로필</div></div>
+      <div class="ia-grp">
+        <div class="ia-l2 sub">소속 클럽</div>
+        <div class="ia-subs">
+          <div class="ia-l3">클럽 추가 신청</div>
+          <div class="ia-l3">승인 대기 현황</div>
+        </div>
+      </div>
+      <div class="ia-grp"><div class="ia-l2">수상 경력</div></div>
+      <div class="ia-grp"><div class="ia-l2">참가 이력</div></div>
+      <div class="ia-grp"><div class="ia-l2">설정</div></div>
+    </div>
+  </div>
+
+  <div class="ia-legend">
+    <div class="ia-leg"><div class="ia-leg-box" style="background:var(--bg2);border:1px solid var(--b2)"></div>L2 메인 화면</div>
+    <div class="ia-leg"><div class="ia-leg-box" style="background:var(--bg);border:1px solid var(--b3)"></div>L3 세부 화면</div>
+    <div class="ia-leg"><span class="ia-badge" style="background:var(--teal-l);color:var(--teal-d);font-size:9px">NEW</span>v0.2 신규</div>
+  </div>
+</div>
+
+<!-- ── 화면 기획 패널 ── -->
+<div id="tab-wire" class="tab-panel">
+  <div class="wf-wrap">
+    <div class="wf-nav">
+      <div class="wf-nav-title">화면 목록</div>
+      <div id="wf-list"></div>
+    </div>
+    <div class="wf-frame-area">
+      <div class="wf-phone">
+        <div class="wf-statusbar"><span>9:41</span><span>||| 100%</span></div>
+        <div class="wf-body" id="wf-body">
+          <div style="padding:20px 16px;font-size:12px;color:var(--t3);">로딩 중...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('on'));
+  document.getElementById('tab-' + id).classList.add('on');
+  document.querySelectorAll('.tnav-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+const TABS = ['홈','ATP/WTA','클럽','마이'];
+function bnav(a) {
+  return '<div class="wf-bnav">' + TABS.map((t,i) =>
+    '<div class="wf-ntab' + (i===a?' on':'') + '">' +
+    '<div class="wf-ntab-line"></div>' + t + '</div>'
+  ).join('') + '</div>';
+}
+function vbar() {
+  return '<div style="display:flex;gap:3px;height:6px;border-radius:3px;overflow:hidden;margin:5px 0;">' +
+    '<div style="flex:8;background:#0F6E56;"></div>' +
+    '<div style="flex:3;background:#EF9F27;"></div>' +
+    '<div style="flex:1;background:#E24B4A;"></div></div>';
+}
+function tag(text, bg, tc) {
+  return '<span class="wf-tag" style="background:' + bg + ';color:' + tc + ';">' + text + '</span>';
+}
+
+const C = {
+home: '<div class="wf-screen">' +
+  '<div class="wf-hdr"><span>테니스 클럽앱</span>' +
+  '<div style="width:20px;height:20px;border-radius:50%;border:1px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t3);">N</div></div>' +
+  '<div class="wf-main">' +
+  '<div class="wf-card" style="border-left:3px solid #E24B4A;border-radius:0 8px 8px 0;margin-left:12px;">' +
+  '<div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-size:11px;font-weight:600;">Roland Garros SF</span>' +
+  tag('진행중','var(--red-l)','var(--red-d)') + '</div>' +
+  '<div style="font-size:12px;font-weight:600;">Sinner vs Alcaraz</div>' +
+  '<div style="font-size:11px;color:var(--t2);margin-top:2px;">6-4&nbsp;&nbsp;4-6&nbsp;&nbsp;3-2</div></div>' +
+  '<div class="wf-sec">내 클럽 공지</div>' +
+  '<div class="wf-li"><div style="font-weight:600;margin-bottom:2px;">5월 정기모임 일정 안내</div>' +
+  '<div style="font-size:11px;color:var(--t3);">한빛 테니스 · 2시간 전</div></div>' +
+  '<div class="wf-sec">다가오는 대회</div>' +
+  '<div class="wf-card" style="display:flex;justify-content:space-between;align-items:center;">' +
+  '<div><div style="font-size:12px;font-weight:600;">춘계 클럽 대회 2025</div>' +
+  '<div style="font-size:11px;color:var(--t2);">2025.05.15 · 양천구민체육관</div></div>' +
+  tag('D-7','var(--amber-l)','var(--amber-d)') + '</div>' +
+  '<div class="wf-sec">정기모임 투표</div>' +
+  '<div class="wf-card"><div style="font-size:12px;font-weight:600;margin-bottom:6px;">5월 정기모임 투표중</div>' +
+  vbar() + '<div style="font-size:11px;color:var(--t2);margin-bottom:8px;">참석 8 · 미정 3 · 불참 1</div>' +
+  '<button class="wf-btn-p" style="font-size:10px;padding:5px 12px;">투표하기</button></div>' +
+  '</div>' + bnav(0) + '</div>',
+
+atp: '<div class="wf-screen">' +
+  '<div class="wf-hdr"><span>ATP / WTA</span><span style="font-size:13px;color:var(--t2);">검색</span></div>' +
+  '<div class="wf-main">' +
+  '<div class="wf-tabs"><div class="wf-tabt on">ATP</div><div class="wf-tabt">WTA</div></div>' +
+  '<div style="padding:7px 12px;display:flex;gap:5px;border-bottom:1px solid var(--b3);">' +
+  ['전체','GS','1000','500','250'].map((c,i) =>
+    '<span class="wf-tag" style="padding:4px 9px;border-radius:12px;border:1px solid ' +
+    (i===0?'var(--blue)':'var(--b3)') + ';background:' +
+    (i===0?'var(--blue)':'transparent') + ';color:' +
+    (i===0?'#fff':'var(--t2)') + ';">' + c + '</span>'
+  ).join('') + '</div>' +
+  [['Roland Garros','05.26–06.09','Paris','클레이','진행중','var(--red-l)','var(--red-d)'],
+   ['Halle Open','06.16–22','Halle','잔디','예정','var(--green-l)','var(--green-d)'],
+   ["Queen's Club",'06.16–22','London','잔디','예정','var(--green-l)','var(--green-d)'],
+   ['Wimbledon','06.30–07.13','London','잔디','예정','var(--bg2)','var(--t3)']
+  ].map(([n,d,l,s,st,bg,tc]) =>
+    '<div class="wf-li" style="display:flex;justify-content:space-between;align-items:center;">' +
+    '<div><div style="font-weight:600;">' + n + '</div>' +
+    '<div style="font-size:11px;color:var(--t2);">' + d + ' · ' + l + '</div></div>' +
+    '<div style="text-align:right;">' + tag(st,bg,tc) +
+    '<div style="font-size:10px;color:var(--t3);margin-top:2px;">' + s + '</div></div></div>'
+  ).join('') +
+  '</div>' + bnav(1) + '</div>',
+
+club: '<div class="wf-screen">' +
+  '<div class="wf-hdr">' +
+  '<div><div>한빛 테니스 클럽 <span style="font-size:11px;color:var(--t3);">▼</span></div>' +
+  '<div style="font-size:10px;color:var(--t2);font-weight:400;">서울시 · 클럽</div></div>' +
+  '<span style="font-size:13px;color:var(--t2);">설정</span></div>' +
+  '<div class="wf-main">' +
+  '<div class="wf-tabs">' +
+  '<div class="wf-tabt">공지</div><div class="wf-tabt">대회</div>' +
+  '<div class="wf-tabt on">모임</div><div class="wf-tabt">게시판</div>' +
+  '<div class="wf-tabt" style="font-size:10px;">클럽원</div></div>' +
+  '<div class="wf-card">' +
+  '<div style="display:flex;justify-content:space-between;margin-bottom:5px;">' +
+  '<span style="font-size:12px;font-weight:600;">5월 정기모임</span>' + tag('투표중','var(--red-l)','var(--red-d)') + '</div>' +
+  '<div style="font-size:11px;color:var(--t2);margin-bottom:6px;">2025.05.15 · 양천구민체육관</div>' +
+  vbar() + '<div style="font-size:11px;color:var(--t2);margin-bottom:8px;">참석 8 · 미정 3 · 불참 1</div>' +
+  '<button class="wf-btn-p" style="font-size:10px;padding:5px 12px;">투표 · 대진표</button></div>' +
+  '<div class="wf-card" style="opacity:.65;">' +
+  tag('예정','var(--blue-l)','var(--blue-d)') +
+  '<div style="font-size:12px;font-weight:600;margin-top:5px;">6월 정기모임</div>' +
+  '<div style="font-size:11px;color:var(--t2);">2025.06.15 · 미정</div></div>' +
+  '</div>' + bnav(2) + '</div>',
+
+vote: '<div class="wf-screen">' +
+  '<div class="wf-hdr"><span class="wf-back">‹</span><span>5월 정기모임</span>' +
+  '<span style="font-size:11px;color:var(--t3);">공유</span></div>' +
+  '<div class="wf-main">' +
+  '<div style="padding:10px 14px;border-bottom:1px solid var(--b3);">' +
+  '<div style="font-size:12px;font-weight:600;margin-bottom:2px;">2025.05.15 (목)</div>' +
+  '<div style="font-size:11px;color:var(--t2);">양천구민체육관 2번 코트</div></div>' +
+  '<div style="padding:10px 14px;">' +
+  '<div style="display:flex;gap:3px;height:8px;border-radius:4px;overflow:hidden;margin:0 0 6px;">' +
+  '<div style="flex:8;background:#0F6E56;"></div><div style="flex:3;background:#EF9F27;"></div><div style="flex:1;background:#E24B4A;"></div></div>' +
+  '<div style="display:flex;justify-content:space-between;font-size:10px;">' +
+  '<span style="color:#0F6E56;">참석 8</span><span style="color:#EF9F27;">미정 3</span><span style="color:#E24B4A;">불참 1</span></div></div>' +
+  '<div style="padding:8px 14px 10px;background:var(--bg2);border-top:1px solid var(--b3);border-bottom:1px solid var(--b3);">' +
+  '<div style="font-size:11px;font-weight:600;margin-bottom:7px;">내 투표</div>' +
+  '<div style="display:flex;gap:8px;">' +
+  '<button style="flex:1;padding:7px;border-radius:6px;border:1.5px solid #0F6E56;background:var(--teal-l);color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer;">참석</button>' +
+  '<button class="wf-btn-s" style="flex:1;font-size:11px;padding:7px;">불참</button>' +
+  '<button class="wf-btn-s" style="flex:1;font-size:11px;padding:7px;">미정</button></div></div>' +
+  '<div class="wf-sec">참석 현황</div>' +
+  [['김한한','참석','var(--teal-l)','var(--teal-d)'],
+   ['이순신','참석','var(--teal-l)','var(--teal-d)'],
+   ['홍길동','참석','var(--teal-l)','var(--teal-d)'],
+   ['박명수','미정','var(--amber-l)','var(--amber-d)'],
+   ['강감찬','불참','var(--red-l)','var(--red-d)']
+  ].map(([n,s,bg,tc]) =>
+    '<div class="wf-li" style="display:flex;align-items:center;gap:8px;padding:7px 14px;">' +
+    '<div class="wf-avatar">' + n[0] + '</div>' +
+    '<div style="flex:1;font-size:12px;">' + n + '</div>' +
+    tag(s,bg,tc) + '</div>'
+  ).join('') +
+  '</div>' + bnav(2) + '</div>',
+
+bracket: '<div class="wf-screen">' +
+  '<div class="wf-hdr"><span class="wf-back">‹</span><span>5월 대진표</span>' +
+  '<span style="font-size:11px;color:var(--blue);">생성</span></div>' +
+  '<div class="wf-main">' +
+  '<div class="wf-tabs">' + ['R1','R2','R3','R4'].map((r,i) =>
+    '<div class="wf-tabt' + (i===0?' on':'') + '" style="flex:1;text-align:center;">' + r + '</div>'
+  ).join('') + '</div>' +
+  [['1코트','김한한 / 이순신','박명수 / 홍길동'],
+   ['2코트','강감찬 / 유재석','신사임당 / 정약용'],
+   ['3코트','이율곡 / 세종대왕','장영실 / 광개토']
+  ].map(([c,a,b]) =>
+    '<div style="margin:8px 12px;padding:10px 12px;border:1px solid var(--b2);border-radius:8px;">' +
+    '<div style="font-size:10px;color:var(--t3);margin-bottom:7px;font-weight:600;">' + c + '</div>' +
+    '<div style="display:flex;align-items:center;gap:6px;">' +
+    '<div style="flex:1;font-size:11px;font-weight:600;color:var(--blue);">' + a + '</div>' +
+    '<div style="display:flex;gap:4px;align-items:center;flex-shrink:0;">' +
+    '<div style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--t3);">-</div>' +
+    '<span style="font-size:11px;color:var(--t3);">:</span>' +
+    '<div style="width:28px;height:28px;border:1px solid var(--b2);border-radius:4px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--t3);">-</div></div>' +
+    '<div style="flex:1;text-align:right;font-size:11px;color:var(--t2);">' + b + '</div></div></div>'
+  ).join('') +
+  '</div>' + bnav(2) + '</div>',
+
+board: '<div class="wf-screen">' +
+  '<div class="wf-hdr"><span class="wf-back">‹</span><span>자유게시판</span>' +
+  '<span style="font-size:12px;color:var(--blue);cursor:pointer;">+ 글쓰기</span></div>' +
+  '<div class="wf-main">' +
+  '<div style="padding:7px 12px;border-bottom:1px solid var(--b3);">' +
+  '<input class="wf-inp" placeholder="검색..." readonly></div>' +
+  [['오늘 경기 후기 짧게 올립니다','김한한','2시간 전',24,3],
+   ['라켓 추천 부탁드려요 ~','이순신','어제',18,7],
+   ['다음 모임 장소 변경 공지','관리자','3일 전',52,2],
+   ['처음 참여하는데 인사드립니다','신입회원','4일 전',31,9],
+   ['스트링 장력 어떻게 치세요?','홍길동','1주 전',14,5]
+  ].map(([t,a,d,v,co]) =>
+    '<div class="wf-li"><div style="font-weight:600;margin-bottom:4px;">' + t + '</div>' +
+    '<div style="display:flex;gap:8px;font-size:10px;color:var(--t3);"><span>' + a + '</span>' +
+    '<span>·</span><span>' + d + '</span>' +
+    '<span style="margin-left:auto;">조회 ' + v + ' · 댓글 ' + co + '</span></div></div>'
+  ).join('') +
+  '</div>' + bnav(2) + '</div>',
+
+post: '<div class="wf-screen">' +
+  '<div class="wf-hdr"><span class="wf-back">‹</span>' +
+  '<span style="font-size:12px;">자유게시판</span>' +
+  '<span style="font-size:13px;color:var(--t2);">···</span></div>' +
+  '<div class="wf-main">' +
+  '<div style="padding:12px 14px;border-bottom:1px solid var(--b3);">' +
+  '<div style="font-size:14px;font-weight:600;margin-bottom:8px;">오늘 경기 후기 짧게 올립니다</div>' +
+  '<div style="display:flex;align-items:center;gap:8px;"><div class="wf-avatar">김</div>' +
+  '<div><span style="font-size:11px;font-weight:600;">김한한</span>' +
+  '<span style="font-size:10px;color:var(--t3);margin-left:6px;">2시간 전 · 조회 24</span></div></div></div>' +
+  '<div style="padding:12px 14px;border-bottom:1px solid var(--b3);font-size:12px;line-height:1.6;">' +
+  '오늘 5세트까지 갔는데 정말 재미있었습니다. 다음에도 함께 쳐요!</div>' +
+  '<div style="padding:8px 14px;border-bottom:1px solid var(--b3);">' +
+  '<span style="font-size:11px;font-weight:600;color:var(--t2);">댓글 3개</span></div>' +
+  '<div class="wf-li" style="display:flex;gap:7px;padding:8px 14px;">' +
+  '<div class="wf-avatar">이</div><div style="flex:1;">' +
+  '<div style="font-size:11px;"><span style="font-weight:600;">이순신</span> <span style="color:var(--t3);font-size:10px;">1시간 전</span></div>' +
+  '<div style="font-size:11px;margin-top:2px;">수고하셨어요~</div>' +
+  '<div style="font-size:10px;color:var(--blue);margin-top:3px;">답글</div></div></div>' +
+  '<div class="wf-li" style="display:flex;gap:7px;padding:6px 14px 6px 36px;background:var(--bg2);">' +
+  '<div class="wf-avatar" style="width:22px;height:22px;font-size:9px;">홍</div>' +
+  '<div style="flex:1;"><div style="font-size:11px;"><span style="font-weight:600;">홍길동</span>' +
+  ' <span style="color:var(--t3);font-size:10px;">45분 전</span></div>' +
+  '<div style="font-size:11px;margin-top:2px;">저도요!</div></div></div>' +
+  '<div class="wf-li" style="display:flex;gap:7px;padding:8px 14px;">' +
+  '<div class="wf-avatar">박</div><div style="flex:1;">' +
+  '<div style="font-size:11px;"><span style="font-weight:600;">박명수</span> <span style="color:var(--t3);font-size:10px;">30분 전</span></div>' +
+  '<div style="font-size:11px;margin-top:2px;">다음엔 같이 팀 해요</div>' +
+  '<div style="font-size:10px;color:var(--blue);margin-top:3px;">답글</div></div></div>' +
+  '<div style="padding:8px 14px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--b3);">' +
+  '<div class="wf-avatar" style="width:24px;height:24px;font-size:9px;">나</div>' +
+  '<input class="wf-inp" placeholder="댓글 입력..." style="flex:1;" readonly>' +
+  '<span style="font-size:13px;color:var(--blue);cursor:pointer;">전송</span></div>' +
+  '</div>' + bnav(2) + '</div>',
+
+mypage: '<div class="wf-screen">' +
+  '<div class="wf-hdr"><span>마이페이지</span><span style="font-size:13px;color:var(--t2);">설정</span></div>' +
+  '<div class="wf-main">' +
+  '<div style="padding:16px 14px;border-bottom:1px solid var(--b3);display:flex;align-items:center;gap:12px;">' +
+  '<div style="width:52px;height:52px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:600;flex-shrink:0;">김</div>' +
+  '<div><div style="font-size:15px;font-weight:600;">김한한</div>' +
+  '<div style="font-size:11px;color:var(--t2);margin-top:2px;">서울시 · 구력 6년 3개월</div>' +
+  '<div style="font-size:10px;color:var(--t3);margin-top:1px;">테니스 시작: 2018년 10월</div></div></div>' +
+  '<div class="wf-sec">소속 클럽</div>' +
+  '<div class="wf-li" style="display:flex;align-items:center;gap:8px;">' +
+  '<div style="width:8px;height:8px;border-radius:50%;background:#0F6E56;flex-shrink:0;"></div>' +
+  '<div style="flex:1;"><div style="font-weight:600;">한빛 테니스 클럽</div>' +
+  '<div style="font-size:11px;color:var(--t2);">서울시 · 일반 회원</div></div>' +
+  tag('활성','var(--teal-l)','var(--teal-d)') + '</div>' +
+  '<div class="wf-li" style="display:flex;align-items:center;gap:8px;">' +
+  '<div style="width:8px;height:8px;border-radius:50%;background:#EF9F27;flex-shrink:0;"></div>' +
+  '<div style="flex:1;"><div style="font-weight:600;">서초 테니스 아카데미</div>' +
+  '<div style="font-size:11px;color:var(--t2);">서울시</div></div>' +
+  tag('승인대기','var(--amber-l)','var(--amber-d)') + '</div>' +
+  '<div style="padding:8px 14px;"><button class="wf-btn-s" style="width:100%;font-size:11px;">+ 클럽 추가 신청</button></div>' +
+  '<div class="wf-sec">수상 경력</div>' +
+  '<div class="wf-li" style="display:flex;align-items:center;gap:8px;">' +
+  '<div style="width:20px;height:20px;border-radius:50%;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--amber-d);flex-shrink:0;">1위</div>' +
+  '<div><div style="font-weight:600;font-size:12px;">2024 춘계 클럽 대회 우승</div>' +
+  '<div style="font-size:11px;color:var(--t2);">한빛 테니스 · 2024.04.20</div></div></div>' +
+  '<div class="wf-li" style="display:flex;align-items:center;gap:8px;">' +
+  '<div style="width:20px;height:20px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:var(--t2);flex-shrink:0;">2위</div>' +
+  '<div><div style="font-weight:600;font-size:12px;">2023 추계 클럽 대회 준우승</div>' +
+  '<div style="font-size:11px;color:var(--t2);">한빛 테니스 · 2023.10.08</div></div></div>' +
+  '</div>' + bnav(3) + '</div>',
+
+login: '<div class="wf-screen">' +
+  '<div style="padding:36px 14px 20px;text-align:center;">' +
+  '<div style="font-size:24px;font-weight:800;color:var(--blue);letter-spacing:-0.5px;">Tennis Rally</div>' +
+  '<div style="font-size:11px;color:var(--t3);margin-top:5px;">클럽과 함께하는 테니스 라이프</div></div>' +
+  '<div class="wf-main">' +
+  '<div style="margin:6px 14px;"><div style="font-size:10px;color:var(--t2);margin-bottom:3px;">이메일</div>' +
+  '<input class="wf-inp" placeholder="email@example.com" readonly></div>' +
+  '<div style="margin:6px 14px 10px;"><div style="font-size:10px;color:var(--t2);margin-bottom:3px;">비밀번호</div>' +
+  '<input class="wf-inp" placeholder="••••••••" readonly></div>' +
+  '<div style="padding:0 14px 4px;">' +
+  '<button class="wf-btn-p" style="width:100%;padding:11px;font-size:13px;">로그인</button></div>' +
+  '<div style="display:flex;justify-content:space-between;padding:6px 14px 16px;">' +
+  '<span style="font-size:10px;color:var(--t3);">자동 로그인</span>' +
+  '<span style="font-size:10px;color:var(--t3);cursor:pointer;">비밀번호 찾기</span></div>' +
+  '<div style="display:flex;align-items:center;margin:0 14px 14px;">' +
+  '<div style="flex:1;height:1px;background:var(--b3)"></div>' +
+  '<span style="margin:0 10px;font-size:10px;color:var(--t3)">또는</span>' +
+  '<div style="flex:1;height:1px;background:var(--b3)"></div></div>' +
+  '<div style="padding:0 14px;">' +
+  '<button class="wf-btn-s" style="width:100%;padding:10px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:8px;">' +
+  '<span style="font-size:15px;">🟡</span> 카카오로 로그인</button></div>' +
+  '<div style="text-align:center;padding:20px 14px 8px;font-size:11px;color:var(--t3);">' +
+  '아직 계정이 없으신가요?&nbsp;&nbsp;' +
+  '<span style="color:var(--blue);font-weight:600;cursor:pointer;">회원가입</span></div>' +
+  '</div></div>',
+
+signup: '<div class="wf-screen">' +
+  '<div class="wf-hdr" style="justify-content:center;"><span>회원가입</span></div>' +
+  '<div class="wf-main" style="padding:4px 0;">' +
+  [['이름','홍길동'],['이메일','email@example.com'],['비밀번호','8자 이상']].map(([l,p]) =>
+    '<div style="margin:5px 12px;"><div style="font-size:10px;color:var(--t2);margin-bottom:2px;">' + l + '</div>' +
+    '<input class="wf-inp" placeholder="' + p + '" readonly></div>'
+  ).join('') +
+  '<div style="margin:5px 12px;"><div style="font-size:10px;color:var(--t2);margin-bottom:2px;">성별</div>' +
+  '<div style="display:flex;gap:8px;">' +
+  '<button style="flex:1;padding:7px;border-radius:6px;border:1.5px solid var(--blue);background:var(--blue-l);color:var(--blue-d);font-size:11px;font-weight:600;cursor:pointer;">남</button>' +
+  '<button class="wf-btn-s" style="flex:1;font-size:11px;padding:7px;">여</button></div></div>' +
+  [['나이','만 30세'],['핸드폰','010-0000-0000']].map(([l,p]) =>
+    '<div style="margin:5px 12px;"><div style="font-size:10px;color:var(--t2);margin-bottom:2px;">' + l + '</div>' +
+    '<input class="wf-inp" placeholder="' + p + '" readonly></div>'
+  ).join('') +
+  '<div style="margin:5px 12px;"><div style="font-size:10px;color:var(--t2);margin-bottom:2px;">테니스 시작 연월 <span style="color:#E24B4A;font-size:9px;">(필수)</span></div>' +
+  '<div style="display:flex;gap:6px;">' +
+  '<input class="wf-inp" placeholder="2019년" style="flex:1.2;" readonly>' +
+  '<input class="wf-inp" placeholder="3월 ▼" style="flex:1;" readonly></div></div>' +
+  '<div style="margin:5px 12px;"><div style="font-size:10px;color:var(--t2);margin-bottom:2px;">활동 지역</div>' +
+  '<input class="wf-inp" placeholder="서울시 ▼" readonly></div>' +
+  '<div style="margin:5px 12px;"><div style="font-size:10px;color:var(--t2);margin-bottom:2px;">소속 클럽/학원 <span style="color:var(--t3);font-size:9px;">(선택)</span></div>' +
+  '<input class="wf-inp" placeholder="클럽 선택... ▼" readonly>' +
+  '<div style="font-size:9px;color:var(--t3);margin-top:2px;">선택 시 관리자 승인 후 가입됩니다</div></div>' +
+  '<div style="padding:8px 12px 16px;">' +
+  '<button class="wf-btn-p" style="width:100%;padding:11px;font-size:13px;">가입 신청하기</button></div>' +
+  '</div></div>',
+};
+
+const SCREENS = [
+  {id:'login',   label:'로그인',          dot:'#888780'},
+  {id:'home',   label:'홈',             dot:'#185FA5'},
+  {id:'atp',    label:'ATP/WTA 목록',   dot:'#993C1D'},
+  {id:'club',   label:'클럽 메인',      dot:'#0F6E56'},
+  {id:'vote',   label:'정기모임 투표',  dot:'#0F6E56'},
+  {id:'bracket',label:'정기모임 대진표',dot:'#0F6E56'},
+  {id:'board',  label:'자유게시판',     dot:'#0F6E56'},
+  {id:'post',   label:'게시글 상세',    dot:'#0F6E56'},
+  {id:'mypage', label:'마이페이지',     dot:'#3C3489'},
+  {id:'signup', label:'회원가입',       dot:'#888780'},
+];
+
+const list = document.getElementById('wf-list');
+const body = document.getElementById('wf-body');
+
+SCREENS.forEach((s, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'wf-nbtn' + (i===0?' on':'');
+  btn.innerHTML =
+    '<div class="wf-num">' + (i+1) + '</div>' +
+    '<div style="width:6px;height:6px;border-radius:50%;background:' + s.dot + ';flex-shrink:0;"></div>' +
+    s.label;
+  btn.onclick = () => {
+    document.querySelectorAll('.wf-nbtn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    body.innerHTML = C[s.id];
+    body.scrollTop = 0;
+  };
+  list.appendChild(btn);
+});
+
+body.innerHTML = C.home;
+</script>
+</body>
+</html>

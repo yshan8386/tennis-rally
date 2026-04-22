@@ -27,7 +27,7 @@ SUPABASE_SERVICE_ROLE_KEY=
 
 ## Database
 
-물리 설계 SQL은 `supabase/migrations/0001_initial_schema.sql`에 있습니다.
+물리 설계 SQL은 `supabase/migrations/`에 있습니다. `0001` 실행 후 `0002`를 순서대로 실행합니다.
 
 Supabase CLI를 사용할 경우:
 
@@ -36,7 +36,15 @@ supabase link --project-ref <project-ref>
 supabase db push
 ```
 
-또는 Supabase SQL Editor에서 `supabase/migrations/0001_initial_schema.sql` 전체를 실행하면 됩니다.
+또는 Supabase SQL Editor에서 `supabase/migrations/0001_initial_schema.sql`, `supabase/migrations/0002_auth_profile_trigger.sql` 순서로 실행하면 됩니다.
+
+## Implemented
+
+- `/login`: Supabase 이메일/비밀번호 로그인
+- `/signup`: 회원가입 필드 검증과 Auth 메타데이터 전송
+- `/auth/callback`: 이메일 인증 링크 세션 교환
+- `/app`: 로그인 후 프로필/소속 클럽 조회 홈
+- `proxy.ts`: `/app` 보호 및 로그인 상태 사용자의 auth 페이지 접근 정리
 
 ## Documents
 

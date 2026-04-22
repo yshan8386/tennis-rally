@@ -1,16 +1,17 @@
 import {
-  Bell,
   CalendarDays,
   ClipboardList,
+  LogIn,
   Medal,
   MessageSquareText,
   Trophy,
   Users,
 } from "lucide-react";
+import Link from "next/link";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -68,10 +69,24 @@ export default function Home() {
               클럽 운영 대시보드
             </h1>
           </div>
-          <Button className="gap-2 rounded-md">
-            <Bell className="size-4" />
-            알림
-          </Button>
+          <div className="flex items-center gap-2">
+            <Link
+              className={buttonVariants({
+                className: "rounded-md",
+                variant: "outline",
+              })}
+              href="/login"
+            >
+              <LogIn className="size-4" />
+              로그인
+            </Link>
+            <Link
+              className={buttonVariants({ className: "rounded-md" })}
+              href="/signup"
+            >
+              회원가입
+            </Link>
+          </div>
         </header>
 
         <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">

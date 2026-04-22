@@ -2,7 +2,10 @@
 
 기준 문서: `tennis_club_app_PRD.docx`, `tennis_app_ia_wireframe.html`
 
-SQL 원본: `supabase/migrations/0001_initial_schema.sql`
+SQL 원본:
+
+- `supabase/migrations/0001_initial_schema.sql`
+- `supabase/migrations/0002_auth_profile_trigger.sql`
 
 ## 설계 방향
 
@@ -12,6 +15,7 @@ SQL 원본: `supabase/migrations/0001_initial_schema.sql`
 - 정기모임은 투표(`meeting_votes`)와 생성된 복식 경기(`meeting_matches`)를 분리했습니다.
 - 자유게시판은 게시글(`posts`)과 댓글(`comments`)을 분리하고, 대댓글은 1단계까지만 허용합니다.
 - ATP/WTA 데이터는 PRD 범위상 외부 sync 전제이므로 공개 조회, 슈퍼어드민 쓰기 권한으로 설계했습니다.
+- 회원가입은 Supabase Auth의 `raw_user_meta_data`를 받아 `auth.users` 생성 트리거가 `public.users` 프로필을 자동 생성합니다.
 
 ## 주요 테이블
 
@@ -60,8 +64,9 @@ supabase db push
 SQL Editor:
 
 1. Supabase Dashboard의 SQL Editor를 엽니다.
-2. `supabase/migrations/0001_initial_schema.sql` 내용을 전체 붙여 넣습니다.
-3. 실행 후 Authentication 설정에서 이메일 로그인을 활성화합니다.
+2. `supabase/migrations/0001_initial_schema.sql` 내용을 전체 붙여 넣고 실행합니다.
+3. `supabase/migrations/0002_auth_profile_trigger.sql` 내용을 전체 붙여 넣고 실행합니다.
+4. Authentication 설정에서 이메일 로그인을 활성화합니다.
 
 ## 후속 결정 필요
 

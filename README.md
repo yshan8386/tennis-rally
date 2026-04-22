@@ -44,6 +44,7 @@ supabase db push
 - `/signup`: 회원가입 필드 검증과 Auth 메타데이터 전송
 - `/auth/callback`: 이메일 인증 링크 세션 교환
 - `/app`: 로그인 후 프로필/소속 클럽 조회 홈
+- `/app/clubs`: 클럽 목록 조회, 가입 신청, 새 클럽 생성
 - `proxy.ts`: `/app` 보호 및 로그인 상태 사용자의 auth 페이지 접근 정리
 
 ## Documents

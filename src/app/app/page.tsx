@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 import { logout } from "@/app/auth/actions";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -90,11 +91,22 @@ export default async function AppHomePage() {
               </p>
             </div>
           </div>
-          <form action={logout}>
-            <Button className="rounded-md" type="submit" variant="outline">
-              로그아웃
-            </Button>
-          </form>
+          <div className="flex items-center gap-2">
+            <Link
+              className={buttonVariants({
+                className: "rounded-md",
+                variant: "outline",
+              })}
+              href="/app/clubs"
+            >
+              클럽 찾기
+            </Link>
+            <form action={logout}>
+              <Button className="rounded-md" type="submit" variant="outline">
+                로그아웃
+              </Button>
+            </form>
+          </div>
         </header>
 
         <section className="grid gap-4 md:grid-cols-3">

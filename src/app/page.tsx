@@ -1,11 +1,15 @@
 import {
   CalendarDays,
+  CheckCircle2,
   ClipboardList,
+  Clock3,
   LogIn,
+  MapPin,
   Medal,
   MessageSquareText,
+  ShieldCheck,
+  TrendingUp,
   Trophy,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -19,7 +23,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const meetingVotes = [
@@ -58,14 +61,14 @@ const matchCards = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f7f7f3] text-zinc-950">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-5 lg:px-8">
+    <main className="min-h-screen bg-[#f4fbf7] text-zinc-950">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-6 lg:px-8">
         <header className="flex items-center justify-between gap-4 border-b border-zinc-200 pb-4">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-zinc-500">
+            <p className="text-xs font-semibold uppercase text-emerald-700">
               Tennis Rally
             </p>
-            <h1 className="mt-1 text-2xl font-semibold tracking-tight">
+            <h1 className="mt-1 font-heading text-3xl text-zinc-950">
               클럽 운영 대시보드
             </h1>
           </div>
@@ -89,33 +92,35 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_380px]">
           <div className="flex flex-col gap-5">
-            <Card className="rounded-lg border-zinc-200 shadow-none">
+            <Card className="rounded-lg border-emerald-100 bg-white shadow-none">
               <CardHeader className="gap-1">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <CardTitle className="text-lg">한빛 테니스 클럽</CardTitle>
+                    <CardTitle className="font-heading text-2xl">
+                      한빛 테니스 클럽
+                    </CardTitle>
                     <CardDescription>서울시 · 클럽 · 활성 회원 32명</CardDescription>
                   </div>
-                  <Badge className="rounded-md bg-emerald-700 text-white">
+                  <Badge className="rounded-md bg-emerald-600 text-white">
                     투표중
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-md border border-zinc-200 bg-white p-3">
+                  <div className="rounded-md border border-emerald-100 bg-emerald-50/70 p-3">
                     <p className="text-xs text-zinc-500">다가오는 모임</p>
                     <p className="mt-1 font-semibold">2025.05.15</p>
                     <p className="text-sm text-zinc-600">양천구민체육관</p>
                   </div>
-                  <div className="rounded-md border border-zinc-200 bg-white p-3">
+                  <div className="rounded-md border border-sky-100 bg-sky-50/80 p-3">
                     <p className="text-xs text-zinc-500">참석 현황</p>
                     <p className="mt-1 font-semibold">8명 참석</p>
                     <p className="text-sm text-zinc-600">총 12명 투표</p>
                   </div>
-                  <div className="rounded-md border border-zinc-200 bg-white p-3">
+                  <div className="rounded-md border border-orange-100 bg-orange-50/70 p-3">
                     <p className="text-xs text-zinc-500">다음 작업</p>
                     <p className="mt-1 font-semibold">대진표 생성</p>
                     <p className="text-sm text-zinc-600">투표 마감 후 가능</p>
@@ -144,7 +149,7 @@ export default function Home() {
             </Card>
 
             <Tabs defaultValue="club" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 rounded-md">
+              <TabsList className="grid w-full grid-cols-4 rounded-md bg-white/80">
                 <TabsTrigger value="home">홈</TabsTrigger>
                 <TabsTrigger value="tour">ATP/WTA</TabsTrigger>
                 <TabsTrigger value="club">클럽</TabsTrigger>
@@ -156,7 +161,7 @@ export default function Home() {
 
                   return (
                     <Card
-                      className="rounded-lg border-zinc-200 bg-white shadow-none"
+                      className="rounded-lg border-emerald-100 bg-white shadow-none"
                       key={module.title}
                     >
                       <CardHeader className="flex-row items-start gap-3 space-y-0">
@@ -164,7 +169,9 @@ export default function Home() {
                           <Icon className="size-5" />
                         </div>
                         <div>
-                          <CardTitle className="text-base">{module.title}</CardTitle>
+                          <CardTitle className="font-heading text-xl">
+                            {module.title}
+                          </CardTitle>
                           <CardDescription>{module.description}</CardDescription>
                         </div>
                       </CardHeader>
@@ -173,9 +180,11 @@ export default function Home() {
                 })}
               </TabsContent>
               <TabsContent value="home" className="mt-4">
-                <Card className="rounded-lg shadow-none">
+                <Card className="rounded-lg border-sky-100 bg-white shadow-none">
                   <CardHeader>
-                    <CardTitle className="text-base">홈 화면 우선순위</CardTitle>
+                    <CardTitle className="font-heading text-xl">
+                      홈 화면 우선순위
+                    </CardTitle>
                     <CardDescription>
                       ATP/WTA 요약, 클럽 공지, 대회 배너, 출석 투표 바로가기
                     </CardDescription>
@@ -184,10 +193,10 @@ export default function Home() {
               </TabsContent>
               <TabsContent value="tour" className="mt-4 grid gap-3">
                 {matchCards.map(([title, names, score, status]) => (
-                  <Card className="rounded-lg shadow-none" key={title}>
+                  <Card className="rounded-lg border-sky-100 bg-white shadow-none" key={title}>
                     <CardHeader className="flex-row items-start justify-between gap-3 space-y-0">
                       <div>
-                        <CardTitle className="text-base">{title}</CardTitle>
+                        <CardTitle className="text-base font-semibold">{title}</CardTitle>
                         <CardDescription>{names}</CardDescription>
                       </div>
                       <Badge variant="secondary" className="rounded-md">
@@ -199,13 +208,13 @@ export default function Home() {
                 ))}
               </TabsContent>
               <TabsContent value="my" className="mt-4">
-                <Card className="rounded-lg shadow-none">
+                <Card className="rounded-lg border-emerald-100 bg-white shadow-none">
                   <CardHeader className="flex-row items-center gap-3 space-y-0">
                     <Avatar>
                       <AvatarFallback>김</AvatarFallback>
                     </Avatar>
                     <div>
-                      <CardTitle className="text-base">김한한</CardTitle>
+                      <CardTitle className="font-heading text-xl">김한한</CardTitle>
                       <CardDescription>서울시 · 구력 6년 3개월</CardDescription>
                     </div>
                   </CardHeader>
@@ -214,62 +223,89 @@ export default function Home() {
             </Tabs>
           </div>
 
-          <aside className="rounded-xl border border-zinc-200 bg-zinc-950 p-3 text-white shadow-sm">
-            <div className="mx-auto max-w-sm overflow-hidden rounded-[2rem] border border-white/20 bg-zinc-950">
-              <div className="flex items-center justify-between px-5 py-3 text-xs text-zinc-400">
-                <span>9:41</span>
-                <span>||| 100%</span>
-              </div>
-              <div className="bg-white text-zinc-950">
-                <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-3">
-                  <div>
-                    <p className="font-semibold">테니스 클럽앱</p>
-                    <p className="text-xs text-zinc-500">한빛 테니스 클럽</p>
-                  </div>
-                  <Badge className="rounded-md bg-blue-700">N</Badge>
+          <aside className="space-y-4">
+            <div className="rounded-lg border border-emerald-100 bg-white p-5 shadow-none">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold text-emerald-700">
+                    오늘의 운영
+                  </p>
+                  <h2 className="mt-1 font-heading text-2xl">바로 처리할 일</h2>
                 </div>
-                <div className="space-y-3 p-4">
-                  <div className="rounded-md border-l-4 border-red-500 bg-red-50 p-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-xs font-semibold text-zinc-600">
-                        Roland Garros SF
+                <Badge className="rounded-md bg-sky-100 text-sky-700">
+                  4개
+                </Badge>
+              </div>
+
+              <div className="mt-5 space-y-3">
+                <div className="rounded-md border border-emerald-100 bg-emerald-50/80 p-4">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-emerald-800">
+                    <CalendarDays className="size-4" />
+                    5월 정기모임
+                  </div>
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-center text-sm">
+                    <div className="rounded-md bg-white px-2 py-2">
+                      <p className="font-semibold text-emerald-700">8</p>
+                      <p className="text-xs text-zinc-500">참석</p>
+                    </div>
+                    <div className="rounded-md bg-white px-2 py-2">
+                      <p className="font-semibold text-amber-600">3</p>
+                      <p className="text-xs text-zinc-500">미정</p>
+                    </div>
+                    <div className="rounded-md bg-white px-2 py-2">
+                      <p className="font-semibold text-red-500">1</p>
+                      <p className="text-xs text-zinc-500">불참</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-md border border-sky-100 bg-sky-50/80 p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="rounded-md bg-white p-2 text-sky-700">
+                      <TrendingUp className="size-4" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">ATP/WTA 라이브 요약</p>
+                      <p className="mt-1 text-sm text-zinc-600">
+                        Roland Garros SF · Sinner vs Alcaraz
                       </p>
-                      <Badge className="rounded-md bg-red-100 text-red-700">
-                        진행중
-                      </Badge>
+                      <p className="mt-1 text-sm font-semibold text-sky-700">
+                        6-4 · 4-6 · 3-2
+                      </p>
                     </div>
-                    <p className="mt-2 font-semibold">Sinner vs Alcaraz</p>
-                    <p className="text-sm text-zinc-600">6-4  4-6  3-2</p>
                   </div>
+                </div>
 
-                  <div>
-                    <p className="mb-2 text-xs font-semibold uppercase text-zinc-500">
-                      내 클럽 공지
-                    </p>
-                    <div className="rounded-md border border-zinc-200 p-3">
-                      <p className="font-medium">5월 정기모임 일정 안내</p>
-                      <p className="text-sm text-zinc-500">2시간 전</p>
+                <div className="rounded-md border border-orange-100 bg-orange-50/80 p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="rounded-md bg-white p-2 text-orange-700">
+                      <MapPin className="size-4" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">양천구민체육관</p>
+                      <p className="mt-1 text-sm text-zinc-600">
+                        2번 코트 · 2025.05.15 목요일
+                      </p>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
 
-                  <div>
-                    <p className="mb-2 text-xs font-semibold uppercase text-zinc-500">
-                      정기모임 투표
-                    </p>
-                    <div className="rounded-md border border-zinc-200 p-3">
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="font-medium">5월 정기모임</p>
-                        <CalendarDays className="size-4 text-zinc-500" />
-                      </div>
-                      <Separator className="my-3" />
-                      <div className="flex items-center gap-2">
-                        <Users className="size-4 text-emerald-700" />
-                        <p className="text-sm text-zinc-600">
-                          참석 8 · 미정 3 · 불참 1
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+            <div className="rounded-lg border border-zinc-200 bg-white p-5">
+              <h3 className="font-heading text-xl">진행 체크</h3>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="size-4 text-emerald-600" />
+                  <span>공지 노출 완료</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Clock3 className="size-4 text-amber-600" />
+                  <span>투표 마감 대기</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <ShieldCheck className="size-4 text-sky-700" />
+                  <span>관리자 권한 확인</span>
                 </div>
               </div>
             </div>

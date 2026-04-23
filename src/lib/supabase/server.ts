@@ -17,6 +17,7 @@ export async function createClient() {
     publicEnv.NEXT_PUBLIC_SUPABASE_URL,
     publicEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
+      db: { schema: "tennis" },
       cookies: {
         getAll() {
           return cookieStore.getAll();

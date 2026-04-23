@@ -1,6 +1,5 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { loginSchema, signupSchema, type AuthFormState } from "@/lib/auth-schemas";
@@ -69,21 +68,21 @@ export async function signup(
   }
 
   const { email, password, ...profile } = validated.data;
-  const origin = (await headers()).get("origin") ?? "";
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: {
-      data: profile,
-      emailRedirectTo: origin ? `${origin}/auth/callback?next=/app` : undefined,
-    },
+    options: { data: profile },
   });
 
   if (error) {
     return {
       message: "회원가입에 실패했습니다. 이미 가입된 이메일인지 확인해 주세요.",
     };
+  }
+
+  if (data.session) {
+    redirect("/app");
   }
 
   redirect("/login?message=signup");

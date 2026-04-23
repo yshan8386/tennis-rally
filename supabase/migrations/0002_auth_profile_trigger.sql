@@ -1,8 +1,8 @@
-create or replace function public.handle_new_auth_user()
+create or replace function tennis.handle_new_auth_user()
 returns trigger
 language plpgsql
 security definer
-set search_path = public, auth
+set search_path = tennis, auth
 as $$
 declare
   metadata jsonb := coalesce(new.raw_user_meta_data, '{}'::jsonb);
@@ -23,7 +23,7 @@ begin
     signup_tennis_month := greatest(1, least(12, (metadata->>'tennis_start_month')::int));
   end if;
 
-  insert into public.users (
+  insert into tennis.users (
     id,
     email,
     name,
@@ -39,7 +39,7 @@ begin
     new.id,
     coalesce(new.email, ''),
     coalesce(nullif(metadata->>'name', ''), split_part(coalesce(new.email, 'user'), '@', 1), '사용자'),
-    case when signup_gender in ('M', 'F') then signup_gender::public.gender_type else 'M'::public.gender_type end,
+    case when signup_gender in ('M', 'F') then signup_gender::tennis.gender_type else 'M'::tennis.gender_type end,
     signup_birth_year,
     coalesce(metadata->>'phone', ''),
     signup_tennis_year,
@@ -60,4 +60,4 @@ drop trigger if exists on_auth_user_created on auth.users;
 
 create trigger on_auth_user_created
 after insert on auth.users
-for each row execute function public.handle_new_auth_user();
+for each row execute function tennis.handle_new_auth_user();
